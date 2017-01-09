@@ -15,6 +15,7 @@
     "preact": "^7.1.0"
   },
   "devDependencies": {
+    "classnames": "^2.2.5",
     "nwb": "0.13.x"
   },
   "author": "",
