@@ -12,7 +12,8 @@
     "test:watch": "nwb test-preact --server"
   },
   "dependencies": {
-    "preact": "^7.1.0"
+    "preact": "^7.1.0",
+    "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
     "classnames": "^2.2.5",

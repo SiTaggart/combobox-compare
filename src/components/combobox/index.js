@@ -4,38 +4,107 @@ import cx from 'classnames'
 
 class Combobox extends Component {
 
-  constructor () {
-    super()
-    this.state = {
-      isExpanded: true
+  state = {
+    currentSelectedOptionIndex: null,
+    currentSelectedOptionId: null,
+    isExpanded: false,
+    searchTerm: null,
+    totalNumberOfOptions: null
+  }
+
+  componentWillMount = () => {
+    this.setState({
+      'totalNumberOfOptions': this.getTotalNumberOfOptions(this.props.options)
+    })
+  }
+
+  collapseCombobox = () =>
+    this.setState({
+      'isExpanded': false
+    })
+
+  decreaseCurrentSelectedOptionIndex = () => {
+    if (this.state.currentSelectedOptionIndex === 0 || this.state.currentSelectedOptionIndex === null) return;
+    if (!this.state.isExpanded) this.expandCombobox()
+    this.setNewSelectedOptionByIndex(this.state.currentSelectedOptionIndex -1)
+  }
+
+  expandCombobox = () =>
+    this.setState({
+      'isExpanded': true
+    })
+
+  getOptionIdByIndex = index =>
+    this.getUnifiedListOfOptions()[index].id
+
+  getOptionTextByIndex = index =>
+    this.getUnifiedListOfOptions()[index].optionLabel
+
+  getTotalNumberOfOptions = options => {
+    let total = 0
+    options.map(group => {
+      total += group.optionItems.length
+    })
+    return total
+  }
+
+  getUnifiedListOfOptions = () =>
+    this.props.options.reduce((a, b) => {
+      return a.concat(b.optionItems);
+    }, []);
+
+  handleBlur = e =>
+    this.collapseCombobox()
+
+  handleEnterKey = () => {
+    this.setState({
+      'searchTerm': this.getOptionTextByIndex(this.state.currentSelectedOptionIndex)
+    })
+    this.collapseCombobox()
+  }
+
+  handleFocus = e =>
+    this.expandCombobox()
+
+  handleKeyDown = e => {
+    switch(e.which) {
+      case 38: // up
+        e.preventDefault()
+        this.decreaseCurrentSelectedOptionIndex();
+      break;
+      case 40: // down
+        e.preventDefault()
+        this.increaseCurrentSelectedOptionIndex();
+      break;
+      case 13: // enter
+        e.preventDefault();
+        this.handleEnterKey();
+      break;
+      default: return;
     }
-
-    this.handleFocus = this.handleFocus.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
   }
 
-  handleFocus (e) {
+  increaseCurrentSelectedOptionIndex = () => {
+    if (this.state.currentSelectedOptionIndex === (this.state.totalNumberOfOptions - 1)) return
+    const newIndex = (this.state.currentSelectedOptionIndex === null) ? 0 : this.state.currentSelectedOptionIndex + 1
+    if (!this.state.isExpanded) this.expandCombobox()
+    this.setNewSelectedOptionByIndex(newIndex)
+  }
+
+  setNewSelectedOptionByIndex = index =>
     this.setState({
-      'isExpanded' : true
+      'currentSelectedOptionIndex': index,
+      'currentSelectedOptionId': this.getOptionIdByIndex(index),
+      'searchTerm': (this.props.autoUpdateValue) ? this.getOptionTextByIndex(index) : this.state.searchTerm || null
     })
-  }
-
-  handleBlur () {
-    this.setState({
-      'isExpanded' : false
-    })
-  }
 
   render(props, state) {
-    const picklistClasses = cx(
-      'slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click',
-      {
+    const comboboxClasses = cx('slds-picklist slds-dropdown-trigger slds-dropdown-trigger--click', {
         'slds-is-open' : state.isExpanded
-      }
-    );
+    });
 
     return (
-      <div class={ picklistClasses }>
+      <div class={ comboboxClasses }>
         <div class="slds-form-element">
 
           <label class="slds-form-element__label" for={ props.id }>
@@ -45,17 +114,19 @@ class Combobox extends Component {
           <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right slds-picklist__input">
 
             <input
-              aria-activedescendant=""
+              aria-activedescendant={ state.currentSelectedOptionId }
               aria-expanded={ state.isExpanded || 'false' }
               aria-owns="option-list-01"
               class="slds-lookup__search-input slds-input"
               id={ props.id }
               onBlur={ this.handleBlur }
               onFocus={ this.handleFocus }
+              onKeyDown={ this.handleKeyDown }
               placeholder="Select an Option"
               readonly=""
               role="combobox"
               type="search"
+              value={ state.searchTerm }
             />
 
             <button
@@ -71,7 +142,10 @@ class Combobox extends Component {
           </div>
         </div>
 
-        <Listbox options={ props.options } />
+        <Listbox
+          options={ props.options }
+          selectedOptionId={ this.state.currentSelectedOptionId }
+        />
 
       </div>
     );

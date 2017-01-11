@@ -5,18 +5,13 @@ import cx from 'classnames'
 
 class Listbox extends Component {
 
-  constructor () {
-    super()
-
-  }
-
-  renderOptions ( options ) {
-    return options.map((optionsGroup, index) => {
+  renderOptions =  options =>
+    options.map((optionsGroup, index) => {
       return this.renderOptionsGroup( optionsGroup, index )
     })
-  }
 
-  renderOptionsGroup ( optionsGroup, index ) {
+
+  renderOptionsGroup = ( optionsGroup, index ) => {
     const optionsLabel = optionsGroup.optionsLabel
     const ariaRole = (optionsGroup.optionsLabel) ? 'group' : 'presentation'
     const renderOptionsGroupHeader = this.renderOptionsGroupHeader( optionsGroup.optionsLabel )
@@ -35,19 +30,19 @@ class Listbox extends Component {
     )
   }
 
-  renderOptionsGroupHeader ( label ) {
-    return(
-      <li role="presentation">
-        <h3 className="slds-lookup__item--label slds-text-title--caps" role="presentation">{ label }</h3>
-      </li>
-    )
-  }
+  renderOptionsGroupHeader = ( label ) =>
+    <li role="presentation">
+      <h3 className="slds-lookup__item--label slds-text-title--caps" role="presentation">{ label }</h3>
+    </li>
 
-  renderOptionsGroupItems ( optionItems ) {
-    return optionItems.map((option) => {
-      return <ListboxOption id={ option.id } label={ option.optionLabel } />
-    })
-  }
+  renderOptionsGroupItems = optionItems =>
+    optionItems.map((option) =>
+      <ListboxOption
+        aria-selected={ (this.props.selectedOptionId === option.id) }
+        label={ option.optionLabel }
+        id={ option.id }
+      />
+    )
 
   render( props, state ) {
     const renderOptions = this.renderOptions( props.options )
