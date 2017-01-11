@@ -12,11 +12,10 @@ class Combobox extends Component {
     totalNumberOfOptions: null
   }
 
-  componentWillMount = () => {
+  componentWillMount = () =>
     this.setState({
       'totalNumberOfOptions': this.getTotalNumberOfOptions(this.props.options)
     })
-  }
 
   collapseCombobox = () =>
     this.setState({
@@ -55,6 +54,15 @@ class Combobox extends Component {
 
   handleBlur = e =>
     this.collapseCombobox()
+
+  handleInput = e => {
+    this.setState({
+      'currentSelectedOptionIndex': null,
+      'currentSelectedOptionId': null,
+      'searchTerm': e.target.value,
+    });
+    this.props.onInput( e.target.value, e );
+  }
 
   handleEnterKey = () => {
     this.setState({
@@ -117,15 +125,17 @@ class Combobox extends Component {
               aria-activedescendant={ state.currentSelectedOptionId }
               aria-expanded={ state.isExpanded || 'false' }
               aria-owns="option-list-01"
+              autocomplete={ (props.autocomplete) ? props.autocomplete : null }
               class="slds-lookup__search-input slds-input"
               id={ props.id }
               onBlur={ this.handleBlur }
+              onInput={ this.handleInput }
               onFocus={ this.handleFocus }
               onKeyDown={ this.handleKeyDown }
               placeholder="Select an Option"
-              readonly=""
+              readonly={ (!props.autocomplete) ? '' : null }
               role="combobox"
-              type="search"
+              type={ (props.autocomplete) ? 'search' : 'text' }
               value={ state.searchTerm }
             />
 
