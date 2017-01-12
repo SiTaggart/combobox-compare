@@ -14,7 +14,11 @@ export default class App extends Component {
     options1 : [],
     options2 : [],
     options3 : [],
-    options4 : []
+    options4 : [],
+    options5 : [],
+    options6 : [],
+    options7 : [],
+    options8 : []
   }
 
   componentWillMount = () => {
@@ -22,6 +26,10 @@ export default class App extends Component {
     this.setComboBoxState( 'test', 'node', 'options2' )
     this.setComboBoxState( 'test', 'ruby', 'options3' )
     this.setComboBoxState( 'test', 'javascript', 'options4' )
+    this.setComboBoxState( 'test', 'phython', 'options5' )
+    this.setComboBoxState( 'test', 'java', 'options6' )
+    this.setComboBoxState( 'test', 'C#', 'options7' )
+    this.setComboBoxState( 'test', 'swift', 'options8' )
   }
 
   handleCombobox1Input = throttle(( term, e ) => {
@@ -38,6 +46,22 @@ export default class App extends Component {
 
   handleCombobox4Input = throttle(( term, e ) => {
       this.setComboBoxState( term, 'javascript', 'options4' )
+  }, 1500)
+
+  handleCombobox5Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'python', 'options5' )
+  }, 1500)
+
+  handleCombobox6Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'java', 'options6' )
+  }, 1500)
+
+  handleCombobox7Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'c#', 'options7' )
+  }, 1500)
+
+  handleCombobox8Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'swift', 'options8' )
   }, 1500)
 
   setComboBoxState = ( term, language, stateKey ) => {
@@ -66,6 +90,7 @@ export default class App extends Component {
               autoUpdateValue
               label="Github Go Repos"
               id="combobox-01"
+              listboxId="listbox-01"
               onInput={ this.handleCombobox1Input }
               options={ this.state.options1 }
             />
@@ -76,8 +101,32 @@ export default class App extends Component {
               autoUpdateValue
               label="Github Ruby Repos"
               id="combobox-03"
+              listboxId="listbox-03"
               onInput={ this.handleCombobox3Input }
               options={ this.state.options3 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              autoUpdateValue
+              label="Github Python Repos"
+              id="combobox-05"
+              listboxId="listbox-05"
+              newLayout
+              onInput={ this.handleCombobox5Input }
+              options={ this.state.options5 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              autocomplete="list"
+              autoUpdateValue
+              label="Github C# Repos"
+              id="combobox-07"
+              listboxId="listbox-07"
+              newLayout
+              onInput={ this.handleCombobox7Input }
+              options={ this.state.options7 }
             />
           </div>
         </div>
@@ -86,6 +135,7 @@ export default class App extends Component {
             <Combobox
               label="Github Node Repos"
               id="combobox-02"
+              listboxId="listbox-02"
               onInput={ this.handleCombobox2Input }
               options={ this.state.options2 }
             />
@@ -95,8 +145,30 @@ export default class App extends Component {
               autocomplete="list"
               label="Github JavaScript Repos"
               id="combobox-04"
+              listboxId="listbox-04"
               onInput={ this.handleCombobox4Input }
               options={ this.state.options4 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              label="Github Java Repos"
+              id="combobox-06"
+              listboxId="listbox-06"
+              newLayout
+              onInput={ this.handleComboboxInput }
+              options={ this.state.options6 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              autocomplete="list"
+              label="Github Swift Repos"
+              id="combobox-08"
+              listboxId="listbox-08"
+              newLayout
+              onInput={ this.handleCombobox8Input }
+              options={ this.state.options8 }
             />
           </div>
         </div>

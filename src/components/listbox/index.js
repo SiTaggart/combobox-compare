@@ -48,7 +48,11 @@ class Listbox extends Component {
     const renderOptions = this.renderOptions( props.options )
 
     return (
-      <div class="slds-dropdown slds-dropdown--left slds-dropdown--length-7" role="listbox">
+      <div
+        class="slds-dropdown slds-dropdown--left slds-dropdown--length-7"
+        id={ props.id }
+        role="listbox"
+      >
         { renderOptions }
       </div>
     );

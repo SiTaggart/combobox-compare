@@ -1,6 +1,7 @@
 import {h, Component} from 'preact'
-import Listbox from '../listbox'
 import cx from 'classnames'
+
+import Listbox from '../listbox'
 
 class Combobox extends Component {
 
@@ -112,7 +113,12 @@ class Combobox extends Component {
     });
 
     return (
-      <div class={ comboboxClasses }>
+      <div
+        class={ comboboxClasses }
+        role={ (props.newLayout) ? 'combobox' : null }
+        aria-expanded={ (props.newLayout) ? state.isExpanded || 'false' : null }
+        aria-haspopup={ (props.newLayout) ? 'listbox' : null }
+      >
         <div class="slds-form-element">
 
           <label class="slds-form-element__label" for={ props.id }>
@@ -123,8 +129,9 @@ class Combobox extends Component {
 
             <input
               aria-activedescendant={ state.currentSelectedOptionId }
-              aria-expanded={ state.isExpanded || 'false' }
-              aria-owns="option-list-01"
+              aria-controls={ (props.newLayout) ? props.listboxId : null }
+              aria-expanded={ (!props.newLayout) ? state.isExpanded || 'false' : null }
+              aria-owns={ (!props.newLayout) ? props.listboxId : null }
               autocomplete={ (props.autocomplete) ? props.autocomplete : null }
               class="slds-lookup__search-input slds-input"
               id={ props.id }
@@ -134,7 +141,7 @@ class Combobox extends Component {
               onKeyDown={ this.handleKeyDown }
               placeholder="Select an Option"
               readonly={ (!props.autocomplete) ? '' : null }
-              role="combobox"
+              role={ (!props.newLayout) ? 'combobox' : null }
               type={ (props.autocomplete) ? 'search' : 'text' }
               value={ state.searchTerm }
             />
@@ -153,6 +160,7 @@ class Combobox extends Component {
         </div>
 
         <Listbox
+          id={ props.listboxId }
           options={ props.options }
           selectedOptionId={ this.state.currentSelectedOptionId }
         />
