@@ -18,18 +18,26 @@ export default class App extends Component {
     options5 : [],
     options6 : [],
     options7 : [],
-    options8 : []
+    options8 : [],
+    options9 : [],
+    options10 : [],
+    options11 : [],
+    options12 : []
   }
 
   componentWillMount = () => {
-    this.setComboBoxState( 'test', 'go', 'options1' )
-    this.setComboBoxState( 'test', 'node', 'options2' )
-    this.setComboBoxState( 'test', 'ruby', 'options3' )
-    this.setComboBoxState( 'test', 'javascript', 'options4' )
-    this.setComboBoxState( 'test', 'phython', 'options5' )
-    this.setComboBoxState( 'test', 'java', 'options6' )
-    this.setComboBoxState( 'test', 'C#', 'options7' )
-    this.setComboBoxState( 'test', 'swift', 'options8' )
+    this.setComboBoxState( '', 'go', 'options1' )
+    this.setComboBoxState( '', 'node', 'options2' )
+    this.setComboBoxState( '', 'ruby', 'options3' )
+    this.setComboBoxState( '', 'javascript', 'options4' )
+    this.setComboBoxState( '', 'python', 'options5' )
+    this.setComboBoxState( '', 'java', 'options6' )
+    this.setComboBoxState( '', 'C#', 'options7' )
+    this.setComboBoxState( '', 'swift', 'options8' )
+    this.setComboBoxState( '', 'php', 'options9' )
+    this.setComboBoxState( '', 'css', 'options10' )
+    this.setComboBoxState( '', 'c++', 'options11' )
+    this.setComboBoxState( '', 'objective-c', 'options12' )
   }
 
   handleCombobox1Input = throttle(( term, e ) => {
@@ -62,6 +70,22 @@ export default class App extends Component {
 
   handleCombobox8Input = throttle(( term, e ) => {
       this.setComboBoxState( term, 'swift', 'options8' )
+  }, 1500)
+
+  handleCombobox9Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'php', 'options9' )
+  }, 1500)
+
+  handleCombobox10Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'css', 'options10' )
+  }, 1500)
+
+  handleCombobox11Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'c++', 'options11' )
+  }, 1500)
+
+  handleCombobox12Input = throttle(( term, e ) => {
+      this.setComboBoxState( term, 'objective-c', 'options12' )
   }, 1500)
 
   setComboBoxState = ( term, language, stateKey ) => {
@@ -156,7 +180,7 @@ export default class App extends Component {
               id="combobox-06"
               listboxId="listbox-06"
               newLayout
-              onInput={ this.handleComboboxInput }
+              onInput={ this.handleCombobox6Input }
               options={ this.state.options6 }
             />
           </div>
@@ -169,6 +193,52 @@ export default class App extends Component {
               newLayout
               onInput={ this.handleCombobox8Input }
               options={ this.state.options8 }
+            />
+          </div>
+        </div>
+        <div class="slds-col slds-p-horizontal--medium">
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              label="Github PHP Repos"
+              id="combobox-09"
+              listboxId="listbox-09"
+              noGrouping
+              onInput={ this.handleCombobox9Input }
+              options={ this.state.options9 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              autocomplete="list"
+              label="Github CSS Repos"
+              id="combobox-10"
+              listboxId="listbox-10"
+              noGrouping
+              onInput={ this.handleCombobox10Input }
+              options={ this.state.options10 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              label="Github C++ Repos"
+              id="combobox-11"
+              listboxId="listbox-11"
+              noGrouping
+              newLayout
+              onInput={ this.handleCombobox11Input }
+              options={ this.state.options11 }
+            />
+          </div>
+          <div class="slds-p-bottom--x-large">
+            <Combobox
+              autocomplete="list"
+              label="Github Objective-C Repos"
+              id="combobox-12"
+              listboxId="listbox-12"
+              noGrouping
+              newLayout
+              onInput={ this.handleCombobox12Input }
+              options={ this.state.options12 }
             />
           </div>
         </div>

@@ -34,8 +34,9 @@ class Combobox extends Component {
       'isExpanded': true
     })
 
-  getOptionIdByIndex = index =>
-    this.getUnifiedListOfOptions()[index].id
+  getOptionIdByIndex = index => {
+    return `${this.props.listboxId}-${this.getUnifiedListOfOptions()[index].id}`
+  }
 
   getOptionTextByIndex = index =>
     this.getUnifiedListOfOptions()[index].optionLabel
@@ -55,15 +56,6 @@ class Combobox extends Component {
 
   handleBlur = e =>
     this.collapseCombobox()
-
-  handleInput = e => {
-    this.setState({
-      'currentSelectedOptionIndex': null,
-      'currentSelectedOptionId': null,
-      'searchTerm': e.target.value,
-    });
-    this.props.onInput( e.target.value, e );
-  }
 
   handleEnterKey = () => {
     this.setState({
@@ -91,6 +83,15 @@ class Combobox extends Component {
       break;
       default: return;
     }
+  }
+
+  handleInput = e => {
+    this.setState({
+      'currentSelectedOptionIndex': null,
+      'currentSelectedOptionId': null,
+      'searchTerm': e.target.value,
+    });
+    this.props.onInput( e.target.value, e );
   }
 
   increaseCurrentSelectedOptionIndex = () => {
@@ -141,7 +142,7 @@ class Combobox extends Component {
               onKeyDown={ this.handleKeyDown }
               placeholder="Select an Option"
               readonly={ (!props.autocomplete) ? '' : null }
-              role={ (!props.newLayout) ? 'combobox' : null }
+              role={ (!props.newLayout) ? 'combobox' : 'textbox' }
               type={ (props.autocomplete) ? 'search' : 'text' }
               value={ state.searchTerm }
             />
@@ -161,6 +162,7 @@ class Combobox extends Component {
 
         <Listbox
           id={ props.listboxId }
+          noGrouping={props.noGrouping}
           options={ props.options }
           selectedOptionId={ this.state.currentSelectedOptionId }
         />

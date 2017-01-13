@@ -12,8 +12,6 @@ class Listbox extends Component {
 
 
   renderOptionsGroup = ( optionsGroup, index ) => {
-    const optionsLabel = optionsGroup.optionsLabel
-    const ariaRole = (optionsGroup.optionsLabel) ? 'group' : 'presentation'
     const renderOptionsGroupHeader = this.renderOptionsGroupHeader( optionsGroup.optionsLabel )
     const renderOptionsGroupItems = this.renderOptionsGroupItems( optionsGroup.optionItems )
     const groupClassNames = cx(
@@ -23,8 +21,13 @@ class Listbox extends Component {
     )
 
     return(
-      <ul id="option-list-01" class={ groupClassNames } role={ ariaRole } aria-label={ optionsLabel }>
-        { (optionsGroup.optionsLabel) ? renderOptionsGroupHeader : null }
+      <ul
+        id={ `${this.props.id}-option-list-01` }
+        class={ groupClassNames }
+        role={ (optionsGroup.optionsLabel && !this.props.noGrouping) ? 'group' : 'presentation' }
+        aria-label={ ( !this.props.noGrouping ) ? optionsGroup.optionsLabel : null }
+      >
+        { (optionsGroup.optionsLabel && !this.props.noGrouping) ? renderOptionsGroupHeader : null }
         { renderOptionsGroupItems }
       </ul>
     )
@@ -38,9 +41,9 @@ class Listbox extends Component {
   renderOptionsGroupItems = optionItems =>
     optionItems.map((option) =>
       <ListboxOption
-        aria-selected={ (this.props.selectedOptionId === option.id) }
+        aria-selected={ (this.props.selectedOptionId === `${this.props.id}-${option.id}`) }
         label={ option.optionLabel }
-        id={ option.id }
+        id={ `${this.props.id}-${option.id}` }
       />
     )
 
